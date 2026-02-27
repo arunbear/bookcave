@@ -1,0 +1,27 @@
+package org.example.bookland.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/book")
+public class BookController {
+
+    @PostMapping
+    public ResponseEntity<Map<String, String>> createBook(@RequestBody Map<String, String> bookRequest) {
+        String title = bookRequest.get("title");
+        
+        Map<String, String> response = Map.of(
+            "title", title,
+            "message", "Book created successfully"
+        );
+        
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+}
