@@ -1,5 +1,6 @@
 package org.example.bookland.controller;
 
+import org.example.bookland.dto.BookRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,8 @@ import java.util.Map;
 public class BookController {
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> createBook(@RequestBody Map<String, String> bookRequest) {
-        String title = bookRequest.get("title");
+    public ResponseEntity<Map<String, String>> createBook(@RequestBody BookRequest bookRequest) {
+        String title = bookRequest.title();
         
         Map<String, String> response = Map.of(
             "title", title,
