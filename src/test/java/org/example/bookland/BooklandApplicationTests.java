@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -44,6 +44,7 @@ class BooklandApplicationTests {
                 .post("/book")
                 .then()
                 .log().body()
+                .header("Location", matchesRegex(".+/book/[1-9][0-9]*"))
                 .statusCode(equalTo(HttpStatus.SC_CREATED))
         ;
     }
