@@ -2,7 +2,10 @@ package org.example.bookland;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
+import org.assertj.core.api.BDDAssertions;
+import org.example.bookland.dto.BookDto;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -49,4 +53,34 @@ class BooklandApplicationTests {
         ;
     }
 
+    @Test
+    void on_creation_a_book_can_be_retrieved_by_id() throws JSONException {
+        // given
+        var bookDetails = new JSONObject()
+                .put("title", "The Tempest")
+                ;
+
+        Response creationResponse = RestAssured
+                .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(bookDetails.toString())
+                .post("/book")
+        ;
+        // when
+        var bookDto = RestAssured
+                .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .get(creationResponse.header("Location"))
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .as(BookDto.class)
+        ;
+        then(bookDto).isNotNull();
+        then(bookDto.id()).isGreaterThan(0L);
+        then(bookDto.title()).isEqualTo("The Tempest");
+    }
 }
