@@ -4,7 +4,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.assertj.core.api.BDDAssertions;
 import org.example.bookland.dto.BookDto;
 import org.json.JSONException;
 import org.json.JSONObject;
