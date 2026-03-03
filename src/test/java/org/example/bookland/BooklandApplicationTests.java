@@ -4,7 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
-import org.example.bookland.dto.BookDto;
+import org.example.bookland.entity.BookEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class BooklandApplicationTests {
                 .post("/book")
         ;
         // when
-        var bookDto = RestAssured
+        var book = RestAssured
                 .given()
                 .log().all()
                 .contentType(ContentType.JSON)
@@ -76,10 +76,10 @@ class BooklandApplicationTests {
                 .log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
-                .as(BookDto.class)
+                .as(BookEntity.class)
         ;
-        then(bookDto).isNotNull();
-        then(bookDto.id()).isGreaterThan(0L);
-        then(bookDto.title()).isEqualTo("The Tempest");
+        then(book).isNotNull();
+        then(book.id()).isGreaterThan(0L);
+        then(book.title()).isEqualTo("The Tempest");
     }
 }

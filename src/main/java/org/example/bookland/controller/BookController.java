@@ -1,6 +1,5 @@
 package org.example.bookland.controller;
 
-import org.example.bookland.dto.BookDto;
 import org.example.bookland.dto.BookRequest;
 import org.example.bookland.entity.BookEntity;
 import org.example.bookland.repository.BookRepository;
@@ -19,25 +18,22 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDto> createBook(@RequestBody BookRequest bookRequest) {
+    public ResponseEntity<BookEntity> createBook(@RequestBody BookRequest bookRequest) {
         BookEntity savedEntity = bookRepository.save(new BookEntity(null, bookRequest.title()));
-        BookDto bookDto = new BookDto(savedEntity.id(), savedEntity.title());
 
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(bookDto.id())
+                .buildAndExpand(savedEntity.id())
                 .toUri();
 
-        return ResponseEntity.created(location).body(bookDto);
+        return ResponseEntity.created(location).body(savedEntity);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookDto> getBook(@PathVariable Long id) {
+    public ResponseEntity<BookEntity> getBook(@PathVariable Long id) {
         return bookRepository.findById(id)
-                .map(entity -> new BookDto(entity.id(), entity.title()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-
 
 }
