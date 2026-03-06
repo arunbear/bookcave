@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.matchesRegex;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class BooklandApplicationTests {
+class ApplicationSpecTests {
 
     @LocalServerPort
     private int localServerPort;
