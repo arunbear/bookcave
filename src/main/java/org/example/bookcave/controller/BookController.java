@@ -1,8 +1,8 @@
-package org.example.bookland.controller;
+package org.example.bookcave.controller;
 
-import org.example.bookland.dto.BookRequest;
-import org.example.bookland.entity.BookEntity;
-import org.example.bookland.repository.BookRepository;
+import org.example.bookcave.dto.BookRequest;
+import org.example.bookcave.entity.BookEntity;
+import org.example.bookcave.repository.BookRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

@@ -1,4 +1,4 @@
-package org.example.bookland.entity;
+package org.example.bookcave.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;

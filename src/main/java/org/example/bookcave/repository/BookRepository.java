@@ -1,6 +1,6 @@
-package org.example.bookland.repository;
+package org.example.bookcave.repository;
 
-import org.example.bookland.entity.BookEntity;
+import org.example.bookcave.entity.BookEntity;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
