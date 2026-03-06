@@ -35,6 +35,24 @@ class ApplicationSpecTests {
     }
 
     @Test
+    void book_creation_requires_a_non_empty_title() throws JSONException {
+        var bookDetails = new JSONObject()
+                .put("title", "")
+                ;
+
+        RestAssured
+                .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(bookDetails.toString())
+                .post("/book")
+                .then()
+                .log().body()
+                .statusCode(equalTo(HttpStatus.SC_BAD_REQUEST))
+        ;
+    }
+
+    @Test
     void accepts_a_book_creation_message() throws JSONException {
         var bookDetails = new JSONObject()
                 .put("title", "The Tempest")

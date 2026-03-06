@@ -1,5 +1,6 @@
 package org.example.bookcave.controller;
 
+import jakarta.validation.Valid;
 import org.example.bookcave.dto.BookRequest;
 import org.example.bookcave.entity.BookEntity;
 import org.example.bookcave.repository.BookRepository;
@@ -18,7 +19,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookEntity> createBook(@RequestBody BookRequest bookRequest) {
+    public ResponseEntity<BookEntity> createBook(@RequestBody @Valid BookRequest bookRequest) {
         BookEntity savedEntity = bookRepository.save(new BookEntity(null, bookRequest.title()));
 
         var location = ServletUriComponentsBuilder.fromCurrentRequest()

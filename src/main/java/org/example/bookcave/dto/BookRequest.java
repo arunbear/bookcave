@@ -1,4 +1,7 @@
 package org.example.bookcave.dto;
 
-public record BookRequest(String title) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record BookRequest(@NotBlank @Size(min = 2) String title) {
 }
