@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>bookland</artifactId>
+    <artifactId>bookcave</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bookland</name>
-    <description>bookland</description>
+    <name>bookcave</name>
+    <description>Examples of using Spring Data JDBC</description>
 
     <properties>
         <java.version>25</java.version>
