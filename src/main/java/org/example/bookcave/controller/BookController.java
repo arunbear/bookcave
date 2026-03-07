@@ -4,10 +4,12 @@ import jakarta.validation.Valid;
 import org.example.bookcave.dto.BookRequest;
 import org.example.bookcave.entity.BookEntity;
 import org.example.bookcave.repository.BookRepository;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+@NullMarked
 @RestController
 @RequestMapping("/book")
 public class BookController {
