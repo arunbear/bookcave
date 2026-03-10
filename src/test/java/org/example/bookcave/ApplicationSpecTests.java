@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.example.bookcave.entity.BookEntity;
+import org.example.bookcave.entity.PublisherEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -100,5 +101,38 @@ class ApplicationSpecTests {
         then(book).isNotNull();
         then(book.id()).isGreaterThan(0L);
         then(book.title()).isEqualTo("The Tempest");
+    }
+
+    @Test
+    void on_creation_a_publisher_can_be_retrieved_by_id() throws JSONException {
+        // given
+        var publisherData = new JSONObject()
+                .put("name", "Fandom House")
+                ;
+
+        Response creationResponse = RestAssured
+                .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(publisherData.toString())
+                .post("/publisher")
+                ;
+        creationResponse.then().statusCode(HttpStatus.SC_CREATED);
+
+        // when
+        var createdPublisher = RestAssured
+                .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .get(creationResponse.header("Location"))
+                .then()
+                .log().all()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .as(PublisherEntity.class)
+                ;
+        then(createdPublisher).isNotNull();
+        then(createdPublisher.id()).isGreaterThan(0L);
+        then(createdPublisher.name()).isEqualTo("Fandom House");
     }
 }
