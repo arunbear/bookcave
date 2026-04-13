@@ -42,12 +42,13 @@ class ApplicationSpecTests {
                 ;
 
         RestAssured
-                .given()
+            .given()
                 .log().all()
                 .contentType(ContentType.JSON)
                 .body(bookDetails.toString())
+            .when()
                 .post("/book")
-                .then()
+            .then()
                 .log().body()
                 .statusCode(equalTo(HttpStatus.SC_BAD_REQUEST))
         ;
@@ -60,12 +61,13 @@ class ApplicationSpecTests {
                 ;
 
         RestAssured
-                .given()
+            .given()
                 .log().all()
                 .contentType(ContentType.JSON)
                 .body(bookDetails.toString())
+            .when()
                 .post("/book")
-                .then()
+            .then()
                 .log().body()
                 .header("Location", matchesRegex(".+/book/[1-9][0-9]*"))
                 .statusCode(equalTo(HttpStatus.SC_CREATED))
@@ -80,19 +82,21 @@ class ApplicationSpecTests {
                 ;
 
         Response creationResponse = RestAssured
-                .given()
+            .given()
                 .log().all()
                 .contentType(ContentType.JSON)
                 .body(bookDetails.toString())
+            .when()
                 .post("/book")
         ;
         // when
         var book = RestAssured
-                .given()
+            .given()
                 .log().all()
                 .contentType(ContentType.JSON)
+            .when()
                 .get(creationResponse.header("Location"))
-                .then()
+            .then()
                 .log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
@@ -111,21 +115,23 @@ class ApplicationSpecTests {
                 ;
 
         Response creationResponse = RestAssured
-                .given()
+            .given()
                 .log().all()
                 .contentType(ContentType.JSON)
                 .body(publisherData.toString())
+            .when()
                 .post("/publisher")
                 ;
         creationResponse.then().statusCode(HttpStatus.SC_CREATED);
 
         // when
         var createdPublisher = RestAssured
-                .given()
+            .given()
                 .log().all()
                 .contentType(ContentType.JSON)
+            .when()
                 .get(creationResponse.header("Location"))
-                .then()
+            .then()
                 .log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
