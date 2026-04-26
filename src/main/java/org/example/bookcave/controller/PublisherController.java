@@ -5,6 +5,7 @@ import org.example.bookcave.dto.PublisherRequest;
 import org.example.bookcave.entity.PublisherEntity;
 import org.example.bookcave.repository.PublisherRepository;
 import org.jspecify.annotations.NullMarked;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -36,6 +37,13 @@ public class PublisherController {
     @GetMapping("/{id}")
     public ResponseEntity<PublisherEntity> getPublisher(@PathVariable Long id) {
         return publisherRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<PublisherEntity> getPublisherByName(@RequestParam("name") String name) {
+        return publisherRepository.findPublisherEntityByName(name)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

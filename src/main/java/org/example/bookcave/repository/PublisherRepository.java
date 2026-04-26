@@ -15,4 +15,6 @@ public interface PublisherRepository extends ListCrudRepository<PublisherEntity,
 
     @Override
     Optional<PublisherEntity> findById(Long id);
+
+    Optional<PublisherEntity> findPublisherEntityByName(String name);
 }

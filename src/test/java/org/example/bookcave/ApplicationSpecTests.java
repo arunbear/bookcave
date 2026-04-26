@@ -141,4 +141,25 @@ class ApplicationSpecTests {
         then(createdPublisher.id()).isGreaterThan(0L);
         then(createdPublisher.name()).isEqualTo("Fandom House");
     }
+
+    @Test
+    void a_publisher_can_be_retrieved_by_name() throws JSONException {
+        final var publisherName = "Flamingo Classics";
+        var publisher = RestAssured
+            .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+            .when()
+                .queryParam("name", publisherName)
+                .get("/publisher")
+            .then()
+                .log().all()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .as(PublisherEntity.class)
+                ;
+        then(publisher).isNotNull();
+        then(publisher.id()).isGreaterThan(0L);
+        then(publisher.name()).isEqualTo(publisherName);
+    }
 }
