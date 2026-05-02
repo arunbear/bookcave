@@ -1,3 +1,7 @@
 spring:
   application:
     name: bookland
+  web:
+    error:
+      include-message: always
+

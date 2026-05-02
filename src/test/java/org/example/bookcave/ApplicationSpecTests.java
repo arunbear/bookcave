@@ -23,6 +23,8 @@ import static org.hamcrest.Matchers.matchesRegex;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class ApplicationSpecTests {
 
+    private static final String DEFAULT_PUBLISHER_NAME = "Flamingo Classics";
+
     @LocalServerPort
     private int localServerPort;
 
@@ -55,9 +57,27 @@ class ApplicationSpecTests {
     }
 
     @Test
+    void book_creation_requires_a_publisher_id() throws JSONException {
+        var bookDetails = new JSONObject().put("title", "Hamlet");
+
+        RestAssured
+            .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .body(bookDetails.toString())
+            .when()
+                .post("/book")
+            .then()
+                .log().body()
+                .statusCode(equalTo(HttpStatus.SC_BAD_REQUEST))
+        ;
+    }
+
+    @Test
     void accepts_a_book_creation_message() throws JSONException {
         var bookDetails = new JSONObject()
                 .put("title", "The Tempest")
+                .put("publisherId", getDefaultPublisherId())
                 ;
 
         RestAssured
@@ -79,6 +99,7 @@ class ApplicationSpecTests {
         // given
         var bookDetails = new JSONObject()
                 .put("title", "The Tempest")
+                .put("publisherId", getDefaultPublisherId())
                 ;
 
         Response creationResponse = RestAssured
@@ -161,5 +182,22 @@ class ApplicationSpecTests {
         then(publisher).isNotNull();
         then(publisher.id()).isGreaterThan(0L);
         then(publisher.name()).isEqualTo(publisherName);
+    }
+
+    private long getDefaultPublisherId() {
+        var publisher = RestAssured
+            .given()
+                .log().all()
+                .contentType(ContentType.JSON)
+            .when()
+                .queryParam("name", DEFAULT_PUBLISHER_NAME)
+                .get("/publisher")
+            .then()
+                .log().all()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .as(PublisherEntity.class)
+            ;
+        return publisher.id();
     }
 }
