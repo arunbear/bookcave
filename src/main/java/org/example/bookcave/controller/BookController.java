@@ -22,7 +22,7 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<BookEntity> createBook(@RequestBody @Valid BookRequest bookRequest) {
-        BookEntity savedEntity = bookRepository.save(new BookEntity(null, bookRequest.title()));
+        BookEntity savedEntity = bookRepository.save(new BookEntity(null, bookRequest.title(), bookRequest.publisherId()));
 
         var location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

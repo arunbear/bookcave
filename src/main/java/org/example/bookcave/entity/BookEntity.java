@@ -6,6 +6,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table("BOOK")
 public record BookEntity(
     @Id Long id,
-    String title
+    String title,
+    Long publisherId
 ) {
 }

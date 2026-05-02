@@ -97,9 +97,10 @@ class ApplicationSpecTests {
     @Test
     void on_creation_a_book_can_be_retrieved_by_id() throws JSONException {
         // given
+        final long defaultPublisherId = getDefaultPublisherId();
         var bookDetails = new JSONObject()
                 .put("title", "The Tempest")
-                .put("publisherId", getDefaultPublisherId())
+                .put("publisherId", defaultPublisherId)
                 ;
 
         Response creationResponse = RestAssured
@@ -126,6 +127,7 @@ class ApplicationSpecTests {
         then(book).isNotNull();
         then(book.id()).isGreaterThan(0L);
         then(book.title()).isEqualTo("The Tempest");
+        then(book.publisherId()).isEqualTo(defaultPublisherId);
     }
 
     @Test
